@@ -3,6 +3,7 @@
 Building MERN/PERN stack m-banking APP using AWS resources.
 
 ## 1. Project Overview
+
 ## 2. Contents
 1. [Documentation Contents](#1-documentation-contents)
 4. [Server-side Build and Deployment](#4-server-side-build-and-deployment)
