@@ -38,7 +38,7 @@ const buildNewCollection = async (db_instance:DbInstance, collection_name:Collec
         // fetch array of collections
         const collections = await db.listCollections().toArray();
         console.log(">>>fetch collection lists:", collections);
-        const collectionNames = collections.map(collection => collection.name);
+        const collectionNames = collections.map((collection:any) => collection.name) ;
 
         // check collection doesnt exists
         if(collectionNames.includes(collection_name)){
