@@ -9,6 +9,7 @@ type UserDocumentQuery = {
     email?: string,
     username?: string, 
     password?: string,
+    role?:string,
     ID?: string
 }
 type MdbQuery = {id: string} & UserDocumentQuery
@@ -36,8 +37,9 @@ export const usersPostController = async (req:Request, res:Response) =>{
         if(body){
             //post to db
             console.log('>>>connecting to mongodb insert')
-            await mdbInsertOne("howmuch-app", "users", body)
+            const postResponse = await mdbInsertOne("howmuch-app", "users", body)
             console.log('>>>insert sucess')
+            res.status(200).json(postResponse);
         } else {
             console.log({error:400, message: "bad request at users post"});
         }
@@ -58,8 +60,9 @@ export const usersGetManyController = async (req:Request, res:Response) =>{
         const mdbQuery = extractMdbQuery({...query, id});
 
         console.log('>>>connecting to mongodb fetch')
-        await mdbFetch("howmuch-app", "users", mdbQuery)
+        const getResponse = await mdbFetch("howmuch-app", "users", mdbQuery)
         console.log('>>>fetch sucess')
+        res.status(200).json(getResponse);
         
     } catch (error){
         console.log({error, message: "internal server error at users fetch many "});
@@ -86,8 +89,9 @@ export const usersGetOneController = async (req:Request, res:Response) =>{
             };
 
             console.log('>>>connecting to mongodb fetch')
-            await mdbFetch("howmuch-app", "users", mdbQuery)
+            const getResponse = await mdbFetch("howmuch-app", "users", mdbQuery)
             console.log('>>>fetch sucess')
+            res.status(200).json(getResponse);
         } else {
             console.log({error:400, message: "bad request at users fetch one"});
         }
@@ -116,8 +120,9 @@ export const usersPatchOneController = async (req:Request, res:Response) =>{
             };
 
             console.log('>>>connecting to mongodb update')
-            await mdbUpdateOne("howmuch-app", "users", body, mdbQuery)
+            const patchResponse = await mdbUpdateOne("howmuch-app", "users", body, mdbQuery)
             console.log('>>>update sucess')
+            res.status(200).json(patchResponse);
         } else {
             console.log({error:400, message: "bad request at users patch one"});
         }
@@ -146,8 +151,9 @@ export const usersDeleteOneController = async (req:Request, res:Response) =>{
             };
 
             console.log('>>>connecting to mongodb delete')
-            await mdbUpdateOne("howmuch-app", "users", body, mdbQuery)
+            const deleteResponse = await mdbDeleteOne("howmuch-app", "users", mdbQuery)
             console.log('>>>delete sucess')
+            res.status(200).json(deleteResponse);
         } else {
             console.log({error:400, message: "bad request at users delete one"});
         }

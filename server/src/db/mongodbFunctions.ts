@@ -68,6 +68,7 @@ export const mdbFetch = async (db_instance:DbInstance, collection_name:Collectio
         console.log('>>> fetching document from collection name')
         const getResponse = collection.find(query);
         const documents = await getResponse.toArray();
+        
 
         console.log(">>> fetch success from:", collection_name, "|||", getResponse);
         return documents;
