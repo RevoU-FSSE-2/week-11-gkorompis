@@ -15,6 +15,7 @@ export const hashPassword = (req, res, next) => {
             if (err)
                 return res.status(500).json({ error: 'Failed to hash password' });
             req.body.hashedPassword = hashedPassword;
+            console.log(">>>hash password:", hashPassword);
             next();
         });
     }

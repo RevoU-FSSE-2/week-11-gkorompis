@@ -30,8 +30,9 @@ export const usersPostController = (req, res) => __awaiter(void 0, void 0, void 
         if (body) {
             //post to db
             console.log('>>>connecting to mongodb insert');
-            yield mdbInsertOne("howmuch-app", "users", body);
+            const postResponse = yield mdbInsertOne("howmuch-app", "users", body);
             console.log('>>>insert sucess');
+            res.status(200).json(postResponse);
         }
         else {
             console.log({ error: 400, message: "bad request at users post" });
@@ -52,8 +53,9 @@ export const usersGetManyController = (req, res) => __awaiter(void 0, void 0, vo
         const { id } = params;
         const mdbQuery = extractMdbQuery(Object.assign(Object.assign({}, query), { id }));
         console.log('>>>connecting to mongodb fetch');
-        yield mdbFetch("howmuch-app", "users", mdbQuery);
+        const getResponse = yield mdbFetch("howmuch-app", "users", mdbQuery);
         console.log('>>>fetch sucess');
+        res.status(200).json(getResponse);
     }
     catch (error) {
         console.log({ error, message: "internal server error at users fetch many " });
@@ -78,8 +80,9 @@ export const usersGetOneController = (req, res) => __awaiter(void 0, void 0, voi
             }
             ;
             console.log('>>>connecting to mongodb fetch');
-            yield mdbFetch("howmuch-app", "users", mdbQuery);
+            const getResponse = yield mdbFetch("howmuch-app", "users", mdbQuery);
             console.log('>>>fetch sucess');
+            res.status(200).json(getResponse);
         }
         else {
             console.log({ error: 400, message: "bad request at users fetch one" });
@@ -108,8 +111,9 @@ export const usersPatchOneController = (req, res) => __awaiter(void 0, void 0, v
             }
             ;
             console.log('>>>connecting to mongodb update');
-            yield mdbUpdateOne("howmuch-app", "users", body, mdbQuery);
+            const patchResponse = yield mdbUpdateOne("howmuch-app", "users", body, mdbQuery);
             console.log('>>>update sucess');
+            res.status(200).json(patchResponse);
         }
         else {
             console.log({ error: 400, message: "bad request at users patch one" });
@@ -138,8 +142,9 @@ export const usersDeleteOneController = (req, res) => __awaiter(void 0, void 0, 
             }
             ;
             console.log('>>>connecting to mongodb delete');
-            yield mdbUpdateOne("howmuch-app", "users", body, mdbQuery);
+            const deleteResponse = yield mdbDeleteOne("howmuch-app", "users", mdbQuery);
             console.log('>>>delete sucess');
+            res.status(200).json(deleteResponse);
         }
         else {
             console.log({ error: 400, message: "bad request at users delete one" });
