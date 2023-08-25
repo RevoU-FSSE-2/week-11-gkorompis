@@ -1,13 +1,10 @@
-import mdbDeleteOne from "./delete.js";
-import mdbUpdateOne from "./put.js";
-import mdbInsertOne from "./post.js";
-import mdbFetchMany from "./get.js";
+import { mdbInsertOne, mdbFetch, mdbUpdateOne, mdbDeleteOne } from "./mongodbFunctions.js";
 class MdbCrud {
     constructor() {
         this.mdbDeleteOne = mdbDeleteOne;
         this.mdbUpdateOne = mdbUpdateOne;
         this.mdbInsertOne = mdbInsertOne;
-        this.mdbFetchMany = mdbFetchMany;
+        this.mdbFetch = mdbFetch;
     }
 }
 export default MdbCrud;
