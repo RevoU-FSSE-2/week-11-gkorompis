@@ -17,7 +17,7 @@ type UserDocumentQuery = {
     role?: string,
     ID?: string
 }
-type MdbQuery = {id: string} & UserDocumentQuery
+// type MdbQuery = {id: string} & UserDocumentQuery
 
 /****** EXPORTS *******/
 

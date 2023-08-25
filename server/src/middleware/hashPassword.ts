@@ -19,6 +19,7 @@ export const hashPassword = (req: Request, res: Response, next: NextFunction)=> 
     bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) return res.status(500).json({ error: 'Failed to hash password' });
         req.body.hashedPassword = hashedPassword;
+        console.log(">>>hash password:", hashPassword)
         next();
     });
   } else {

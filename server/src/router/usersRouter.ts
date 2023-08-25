@@ -7,10 +7,12 @@ import {
     usersDeleteOneController
 } from '../controller/usersController.js'
 import { hashPassword } from '../middleware/hashPassword.js';
+import { verifyToken } from '../middleware/verifyToken.js';
 
 const app = express();
 app.use(express.json());
 const usersRouter = express.Router();
+usersRouter.use(verifyToken)
 
 //routes verify token middleware
 //routes
