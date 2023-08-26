@@ -6,6 +6,7 @@ Building MERN stack m-banking APP using AWS resources.
 
 ## 2. Contents
 1. [Documentation Contents](#1-documentation-contents)
+2. [Contents](#2-contents)
 3. [API Documentation](#3-api-documentation)
 4. [Server-side Build and Deployment](#4-server-side-build-and-deployment)
     1. [Setting up virtual machine AWS EC2 and Docker](#41-setting-up-virtual-machine-aws-ec2-and-docker)
