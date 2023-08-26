@@ -9,7 +9,6 @@ type TransactionRequestStatus = {
     isRejected: boolean,
     isDeleted: boolean,
 }
-
 type TransactionRequestTimestampAdmin = {
     resolved?: string,
     created?: string,
@@ -32,7 +31,7 @@ type TransactionDocumentQuery = {
     timestamp?: TransactionRequestTimestamp,
     ID?: string,
     decodedRole?: string,
-    decoderUsername?: string,
+    decodedUsername?: string,
 }
 type TransactionDocumentQueryAdmin = {
     username?: string,
@@ -58,12 +57,12 @@ type TransactionDocumentMaker= {
 type MdbQuery = {id: string} & TransactionDocumentQuery
 
 const extractMdbQuery = ({id, username, type, amount, status, timestamp, ID}:MdbQuery) => {
-    const mdbQuery = id ? {ID: id}: 
+    const mdbQuery = id ? {_id: id}: 
         username ? {username}:
         type ? {type}:
         amount ? {amount}:
         status ? {timestamp}:
-        ID ? {ID}:{};
+        ID ? {_id: ID}:{};
     return mdbQuery;
 }
 
@@ -85,15 +84,21 @@ export const transactionsRequestPostController = async (req:Request, res:Respons
         }
         console.log('>>>destructuring necesary params and queries')
         const {id} = params;
-        const {decoderRole, decodedUsername} = query as any;
-        delete query.decodedRole;
-        delete query.decoderUsername;
+        const {decodedRole, decodedUsername} = query as any;
+        console.log(">>> decoder query", query);
+        
         let mdbQuery = extractMdbQuery({...query, id});
+        delete query.decodedRole;
+        delete query.decodedUsername;
 
         //post only self transaction if role is maker
-        if(decoderRole=="maker"){
-            body["username"] == decodedUsername;
+        if(decodedRole=="maker"){
+            body["username"] = decodedUsername;
         }
+        delete query.decodedRole;
+        delete query.decodedUsername;
+        console.log(">>> decoder query", query);
+
         console.log('>>>connecting to mongodb insert')
         const postResponse = await mdbInsertOne("howmuch-app", "transactionsRequest", body)
         console.log('>>>insert sucess')
@@ -117,7 +122,7 @@ export const transactionsRequestGetManyController = async (req:Request, res:Resp
         const {id} = params;
         const {decoderRole, decodedUsername} = query as any;
         delete query.decodedRole;
-        delete query.decoderUsername;
+        delete query.decodedUsername;
         let mdbQuery = extractMdbQuery({...query, id});
 
         //expect only self transaction if role is maker
@@ -151,7 +156,7 @@ export const transactionsRequestGetOneController = async (req:Request, res:Respo
             const {id} = params;
             const {decoderRole, decodedUsername} = query as any;
             delete query.decodedRole;
-            delete query.decoderUsername;
+            delete query.decodedUsername;
             let mdbQuery = extractMdbQuery({...query, id});
 
             //expect only self transaction if role is maker
@@ -161,8 +166,8 @@ export const transactionsRequestGetOneController = async (req:Request, res:Respo
             }
             //expect mdbquery object keys is not undefined
             if(Object.keys(mdbQuery)[0]){
-                console.log({error:400, message: "bad request at transactionsRequest fetch one, filter query undefined"});
-                return res.status(400).json({error:400, message: "bad request at transactionsRequest fetch one, filter query undefined"})
+                console.log({error:400, message: "bad request at transactionsRequest fetch one, filter query undefined", mdbQuery});
+                return res.status(400).json({error:400, message: "bad request at transactionsRequest fetch one, filter query undefined", mdbQuery})
             };
 
             console.log('>>>connecting to mongodb fetch')
@@ -192,7 +197,7 @@ export const transactionsRequestPatchOneController = async (req:Request, res:Res
             const {id} = params;
             const {decoderRole, decodedUsername} = query as any;
             delete query.decodedRole;
-            delete query.decoderUsername;
+            delete query.decodedUsername;
             let mdbQuery = extractMdbQuery({...query, id});
 
             //expect only self transaction if role is maker

@@ -6,14 +6,75 @@ Building MERN/PERN stack m-banking APP using AWS resources.
 
 ## 2. Contents
 1. [Documentation Contents](#1-documentation-contents)
+3. [API Documentation](#3-api-documentation)
 4. [Server-side Build and Deployment](#4-server-side-build-and-deployment)
     1. Setting up virtual machine AWS EC2 and Docker
     2. [Build connection to mongodb with Docker](#)
     3. Build connection to MySQL AWS RDS server with Docker
     4. Setting up REDIS AWS Elasticache
-## 3. API Documentations
-## 4. Server-side Build and Deployment
 
+
+
+## 3. API Documentation
+### 3.1 Dependencies
+The server-side application is hosted by AWS API Gateway, and follows this requirement:
+```javascript
+ "dependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "ioredis": "^5.3.2",
+    "jsonwebtoken": "^9.0.1",
+    "mysql2": "^3.6.0",
+    "serverless-http": "^3.2.0",
+    "typescript": "^5.1.6"
+}
+```
+
+### 3.2 BaseURL and Resources
+
+#### General Syntax
+```http
+<base URL>/<resource>?bearer=<api_token>
+```
+
+#### Base URL
+```http
+https://kmaww9zbl5.execute-api.ap-southeast-3.amazonaws.com/prod
+```
+
+#### Request JWT Token
+```http
+POST /auth/login
+```
+```javascript
+//body
+{
+    "user": string,
+    "password": string
+}
+//response EXPIRES IN 30 MINUTES
+{
+    "token": string,
+}
+```
+
+
+#### Resources
+
+| Resource       | Status | Description                          | Fields        |
+| :------------- | :----- | :----------------------------------- | :------------ |
+| **users**        | `prod`  | Collection of user accounts        | `{_id, created, name, email, username, password }`          |
+| **transactionsRequest** | `prod` | Collection of transaction records   | `{_id, username, type, amount, status, timestamp}`            |
+| **transactions** | `prod` | Collection of transaction records   | `{_id, username, type, amount, created}`            |
+
+
+## 4. Server-side Build and Deployment
 ### 4.1 Setting up virtual machine AWS EC2 and Docker
 
 To set up EC2 instance follow this workflow:

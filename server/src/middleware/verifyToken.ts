@@ -76,7 +76,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
 
         // modifty request status and timestbody
         req.query["decodedRole"] = role;
-        req.query["decoderUsername"] = username;
+        req.query["decodedUsername"] = username;
         req.body["status"] = {};
         req.body["timestamp"] = {};
         req.body = setRequestTimestampUpdate(req.body);

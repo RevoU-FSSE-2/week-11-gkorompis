@@ -21,7 +21,7 @@ type TransactionDocumentQuery = {
     decoderUsername?: string,
 }
 
-const permissions = ["admin", "approver"]
+const permissions = ["admin", "approver", "maker"]
 
 const setRequestStatusDefault =(body: TransactionDocumentQuery)=>{
    if(body.status){

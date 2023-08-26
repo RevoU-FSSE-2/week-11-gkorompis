@@ -11,12 +11,12 @@ import MdbCrud from "../db/mdbCrud.js";
 const crud = new MdbCrud();
 const { mdbFetch, mdbUpdateOne, mdbInsertOne, mdbDeleteOne } = crud;
 const extractMdbQuery = ({ id, username, type, amount, status, timestamp, ID }) => {
-    const mdbQuery = id ? { ID: id } :
+    const mdbQuery = id ? { _id: id } :
         username ? { username } :
             type ? { type } :
                 amount ? { amount } :
                     status ? { timestamp } :
-                        ID ? { ID } : {};
+                        ID ? { _id: ID } : {};
     return mdbQuery;
 };
 /****** EXPORTS *******/
@@ -35,14 +35,18 @@ export const transactionsRequestPostController = (req, res) => __awaiter(void 0,
         }
         console.log('>>>destructuring necesary params and queries');
         const { id } = params;
-        const { decoderRole, decodedUsername } = query;
-        delete query.decodedRole;
-        delete query.decoderUsername;
+        const { decodedRole, decodedUsername } = query;
+        console.log(">>> decoder query", query);
         let mdbQuery = extractMdbQuery(Object.assign(Object.assign({}, query), { id }));
+        delete query.decodedRole;
+        delete query.decodedUsername;
         //post only self transaction if role is maker
-        if (decoderRole == "maker") {
-            body["username"] == decodedUsername;
+        if (decodedRole == "maker") {
+            body["username"] = decodedUsername;
         }
+        delete query.decodedRole;
+        delete query.decodedUsername;
+        console.log(">>> decoder query", query);
         console.log('>>>connecting to mongodb insert');
         const postResponse = yield mdbInsertOne("howmuch-app", "transactionsRequest", body);
         console.log('>>>insert sucess');
@@ -65,7 +69,7 @@ export const transactionsRequestGetManyController = (req, res) => __awaiter(void
         const { id } = params;
         const { decoderRole, decodedUsername } = query;
         delete query.decodedRole;
-        delete query.decoderUsername;
+        delete query.decodedUsername;
         let mdbQuery = extractMdbQuery(Object.assign(Object.assign({}, query), { id }));
         //expect only self transaction if role is maker
         if (decoderRole == "maker") {
@@ -96,7 +100,7 @@ export const transactionsRequestGetOneController = (req, res) => __awaiter(void 
             const { id } = params;
             const { decoderRole, decodedUsername } = query;
             delete query.decodedRole;
-            delete query.decoderUsername;
+            delete query.decodedUsername;
             let mdbQuery = extractMdbQuery(Object.assign(Object.assign({}, query), { id }));
             //expect only self transaction if role is maker
             if (decoderRole == "maker") {
@@ -105,8 +109,8 @@ export const transactionsRequestGetOneController = (req, res) => __awaiter(void 
             }
             //expect mdbquery object keys is not undefined
             if (Object.keys(mdbQuery)[0]) {
-                console.log({ error: 400, message: "bad request at transactionsRequest fetch one, filter query undefined" });
-                return res.status(400).json({ error: 400, message: "bad request at transactionsRequest fetch one, filter query undefined" });
+                console.log({ error: 400, message: "bad request at transactionsRequest fetch one, filter query undefined", mdbQuery });
+                return res.status(400).json({ error: 400, message: "bad request at transactionsRequest fetch one, filter query undefined", mdbQuery });
             }
             ;
             console.log('>>>connecting to mongodb fetch');
@@ -137,7 +141,7 @@ export const transactionsRequestPatchOneController = (req, res) => __awaiter(voi
             const { id } = params;
             const { decoderRole, decodedUsername } = query;
             delete query.decodedRole;
-            delete query.decoderUsername;
+            delete query.decodedUsername;
             let mdbQuery = extractMdbQuery(Object.assign(Object.assign({}, query), { id }));
             //expect only self transaction if role is maker
             if (decoderRole == "maker") {

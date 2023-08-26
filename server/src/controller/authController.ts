@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import MdbCrud from "../db/mdbCrud.js";
 const crud = new MdbCrud();
 const {mdbFetch} = crud;
@@ -39,26 +39,26 @@ export const authPostController = async (req:Request, res:Response) =>{
         // expect user is not null
         if(!userDb) {
             console.log({error:403, message: "unauthorized access, username not matched"});
-            res.status(403).json({error:403, message: "unauthorized access"});
+            return res.status(403).json({error:403, message: "unauthorized access"});
         }
+        console.log(">>> userDB", userDb)
 
         // expect user password matches login password
         // Compare the entered password with the stored hash
-        bcrypt.compare(password, userDb?.password, (err, result) => {
-            if (err) {
-                console.log({error:403, message: "unauthorized access, password not matched"});
-                res.status(403).json({error:403, message: "unauthorized access"});
-            }
-            if (result) {
-                // expect returns login token
-                console.log(">>> bcrypt result", result)
-                const token = jwt.sign(userDb as UserDocumentQuery, SECRET_KEY as string,{expiresIn: '30m'});
-                res.status(200).json(token);
-            } else {
-                console.log({error:403, message: "unauthorized access, password not matched"});
-                res.status(403).json({error:403, message: "unauthorized access"});
-            }
-        }); 
+
+        const pass_hashed = userDb?.password;
+        const pass_login = password;
+        console.log({pass_login, pass_hashed})
+        const passwordMatches = await bcrypt.compare(pass_login, pass_hashed);
+        if(!passwordMatches){
+            console.log({error:403, message: "unauthorized access, password not matched", match: passwordMatches});
+            res.status(403).json({error:403, message: "unauthorized access", match: passwordMatches});
+        }
+
+        // expect returns login token
+        console.log(">>> bcrypt result", passwordMatches)
+        const token = jwt.sign(userDb as UserDocumentQuery, SECRET_KEY as string,{expiresIn: '30m'});
+        return res.status(200).json(token);
     } else {
         console.log({error:401, message: "invalid request body"});
     }

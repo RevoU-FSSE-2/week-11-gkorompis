@@ -1,4 +1,4 @@
-import { MongoClient, Db, Collection, InsertOneResult} from 'mongodb';
+import { MongoClient, Db, Collection, InsertOneResult, ObjectId} from 'mongodb';
 import '../loadenv.js';
 
 const SECRET = process.env.MONGODB_SECRET
@@ -66,6 +66,11 @@ export const mdbFetch = async (db_instance:DbInstance, collection_name:Collectio
         
         // fetch from collection
         console.log('>>> fetching document from collection name')
+        const {_id} = query;
+        if(_id){
+            query._id = new ObjectId(_id);
+        }
+        console.log('>>>query id aware', query);
         const getResponse = collection.find(query);
         const documents = await getResponse.toArray();
         
@@ -91,6 +96,10 @@ export const mdbUpdateOne = async (db_instance:DbInstance, collection_name:Colle
         
         // update into collection
         console.log('>>> updating document into collection name')
+        const {_id} = query;
+        if(_id){
+            query._id = new ObjectId(_id);
+        }
         const updateResponse = collection.updateOne(query, {$set: document});
 
         console.log(">>>  update success into:", collection_name, "|||", updateResponse);
@@ -114,6 +123,8 @@ export const mdbDeleteOne = async (db_instance:DbInstance, collection_name:Colle
         const collection = db.collection(collection_name);
         
         // delete from collection
+        const {_id} = query;
+        if(_id){query._id = new ObjectId(_id);}
         console.log('>>> deleting document into collection name')
         const deleteResponse = collection.deleteOne(query);
 

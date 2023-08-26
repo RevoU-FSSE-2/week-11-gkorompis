@@ -28,9 +28,14 @@ export const usersPostController = (req, res) => __awaiter(void 0, void 0, void 
     try {
         //check body is not empty
         if (body) {
-            //post to db
+            //timeseries
+            console.log('>>>adjust time series compatibility in payload');
+            body['created'] = new Date();
             console.log('>>>connecting to mongodb insert');
             const postResponse = yield mdbInsertOne("howmuch-app", "users", body);
+            if (!postResponse) {
+                return res.status(500).json({ error: 500, message: "internal server error at mongodb insert into users collection " });
+            }
             console.log('>>>insert sucess');
             res.status(200).json(postResponse);
         }
@@ -54,6 +59,9 @@ export const usersGetManyController = (req, res) => __awaiter(void 0, void 0, vo
         const mdbQuery = extractMdbQuery(Object.assign(Object.assign({}, query), { id }));
         console.log('>>>connecting to mongodb fetch');
         const getResponse = yield mdbFetch("howmuch-app", "users", mdbQuery);
+        if (!getResponse) {
+            return res.status(500).json({ error: 500, message: "internal server error at mongodb fetch many from users collection " });
+        }
         console.log('>>>fetch sucess');
         res.status(200).json(getResponse);
     }
@@ -81,6 +89,9 @@ export const usersGetOneController = (req, res) => __awaiter(void 0, void 0, voi
             ;
             console.log('>>>connecting to mongodb fetch');
             const getResponse = yield mdbFetch("howmuch-app", "users", mdbQuery);
+            if (!getResponse) {
+                return res.status(500).json({ error: 500, message: "internal server error at mongodb fetch one from users collection " });
+            }
             console.log('>>>fetch sucess');
             res.status(200).json(getResponse);
         }
@@ -112,6 +123,9 @@ export const usersPatchOneController = (req, res) => __awaiter(void 0, void 0, v
             ;
             console.log('>>>connecting to mongodb update');
             const patchResponse = yield mdbUpdateOne("howmuch-app", "users", body, mdbQuery);
+            if (!patchResponse) {
+                return res.status(500).json({ error: 500, message: "internal server error at mongodb fetch many from users collection " });
+            }
             console.log('>>>update sucess');
             res.status(200).json(patchResponse);
         }
@@ -143,6 +157,9 @@ export const usersDeleteOneController = (req, res) => __awaiter(void 0, void 0, 
             ;
             console.log('>>>connecting to mongodb delete');
             const deleteResponse = yield mdbDeleteOne("howmuch-app", "users", mdbQuery);
+            if (!deleteResponse) {
+                return res.status(500).json({ error: 500, message: "internal server error at mongodb delete from users collection " });
+            }
             console.log('>>>delete sucess');
             res.status(200).json(deleteResponse);
         }

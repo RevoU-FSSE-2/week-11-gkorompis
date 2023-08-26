@@ -2,17 +2,17 @@ import express from 'express';
 
 
 import {
-    usersPostController,
-} from '../controller/usersController.js'
+    authPostController,
+} from '../controller/authController.js'
 
 import { hashPassword } from '../middleware/hashPassword.js';
 
 const app = express();
 app.use(express.json());
-const usersRouter = express.Router();
+const authRouter = express.Router();
 
 //routes verify token middleware
 //routes
-usersRouter.post("/login", hashPassword, usersPostController);
+authRouter.post("/login", authPostController);
 
-export default usersRouter;
+export default authRouter;

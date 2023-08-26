@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import '../loadenv.js';
 const SECRET = process.env.MONGODB_SECRET;
 const connectToMongoDB = (db_instance) => __awaiter(void 0, void 0, void 0, function* () {
@@ -57,6 +57,11 @@ export const mdbFetch = (db_instance, collection_name, query) => __awaiter(void 
         const collection = db.collection(collection_name);
         // fetch from collection
         console.log('>>> fetching document from collection name');
+        const { _id } = query;
+        if (_id) {
+            query._id = new ObjectId(_id);
+        }
+        console.log('>>>query id aware', query);
         const getResponse = collection.find(query);
         const documents = yield getResponse.toArray();
         console.log(">>> fetch success from:", collection_name, "|||", getResponse);
@@ -77,6 +82,10 @@ export const mdbUpdateOne = (db_instance, collection_name, document, query) => _
         const collection = db.collection(collection_name);
         // update into collection
         console.log('>>> updating document into collection name');
+        const { _id } = query;
+        if (_id) {
+            query._id = new ObjectId(_id);
+        }
         const updateResponse = collection.updateOne(query, { $set: document });
         console.log(">>>  update success into:", collection_name, "|||", updateResponse);
         return updateResponse;
@@ -95,6 +104,10 @@ export const mdbDeleteOne = (db_instance, collection_name, query) => __awaiter(v
         console.log('>>> fetching collection name...');
         const collection = db.collection(collection_name);
         // delete from collection
+        const { _id } = query;
+        if (_id) {
+            query._id = new ObjectId(_id);
+        }
         console.log('>>> deleting document into collection name');
         const deleteResponse = collection.deleteOne(query);
         console.log(">>>  delete success from:", collection_name, "|||", deleteResponse);

@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const permissions = ["admin", "approver"];
+const permissions = ["admin", "approver", "maker"];
 const setRequestStatusDefault = (body) => {
     if (body.status) {
         body.status["isApproved"] = false;

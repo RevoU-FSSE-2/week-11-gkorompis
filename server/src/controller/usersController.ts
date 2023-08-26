@@ -35,9 +35,14 @@ export const usersPostController = async (req:Request, res:Response) =>{
     try {
         //check body is not empty
         if(body){
-            //post to db
+            //timeseries
+            console.log('>>>adjust time series compatibility in payload')
+            body['created'] = new Date();
             console.log('>>>connecting to mongodb insert')
             const postResponse = await mdbInsertOne("howmuch-app", "users", body)
+            if(!postResponse){
+                return res.status(500).json({error:500, message: "internal server error at mongodb insert into users collection "});
+            }
             console.log('>>>insert sucess')
             res.status(200).json(postResponse);
         } else {
@@ -61,6 +66,9 @@ export const usersGetManyController = async (req:Request, res:Response) =>{
 
         console.log('>>>connecting to mongodb fetch')
         const getResponse = await mdbFetch("howmuch-app", "users", mdbQuery)
+        if(!getResponse){
+            return res.status(500).json({error:500, message: "internal server error at mongodb fetch many from users collection "});
+        }        
         console.log('>>>fetch sucess')
         res.status(200).json(getResponse);
         
@@ -90,6 +98,9 @@ export const usersGetOneController = async (req:Request, res:Response) =>{
 
             console.log('>>>connecting to mongodb fetch')
             const getResponse = await mdbFetch("howmuch-app", "users", mdbQuery)
+            if(!getResponse){
+                return res.status(500).json({error:500, message: "internal server error at mongodb fetch one from users collection "});
+            }    
             console.log('>>>fetch sucess')
             res.status(200).json(getResponse);
         } else {
@@ -121,6 +132,9 @@ export const usersPatchOneController = async (req:Request, res:Response) =>{
 
             console.log('>>>connecting to mongodb update')
             const patchResponse = await mdbUpdateOne("howmuch-app", "users", body, mdbQuery)
+            if(!patchResponse){
+            return res.status(500).json({error:500, message: "internal server error at mongodb fetch many from users collection "});
+            }            
             console.log('>>>update sucess')
             res.status(200).json(patchResponse);
         } else {
@@ -152,6 +166,9 @@ export const usersDeleteOneController = async (req:Request, res:Response) =>{
 
             console.log('>>>connecting to mongodb delete')
             const deleteResponse = await mdbDeleteOne("howmuch-app", "users", mdbQuery)
+            if(!deleteResponse){
+                return res.status(500).json({error:500, message: "internal server error at mongodb delete from users collection "});
+            }    
             console.log('>>>delete sucess')
             res.status(200).json(deleteResponse);
         } else {

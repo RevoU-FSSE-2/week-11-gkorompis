@@ -48,7 +48,7 @@ export const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0,
         }
         // modifty request status and timestbody
         req.query["decodedRole"] = role;
-        req.query["decoderUsername"] = username;
+        req.query["decodedUsername"] = username;
         req.body["status"] = {};
         req.body["timestamp"] = {};
         req.body = setRequestTimestampUpdate(req.body);
