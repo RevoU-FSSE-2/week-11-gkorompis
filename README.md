@@ -1,6 +1,6 @@
-# [HowMuch!]()
+# [MERN stack m-banking APP]()
 
-Building MERN/PERN stack m-banking APP using AWS resources.
+Building MERN stack m-banking APP using AWS resources.
 
 ## 1. Project Overview
 
