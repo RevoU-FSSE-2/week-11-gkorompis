@@ -39,7 +39,13 @@ The server-side application is hosted by AWS API Gateway, and follows this requi
 
 #### General Syntax
 ```http
-<base URL>/<resource>?bearer=<api_token>
+<base URL>/<resource>
+```
+```javascript
+//header required for all header except for post users
+{
+    "Authorization": "bearer <jwt_token>"
+}
 ```
 
 #### Base URL
@@ -54,7 +60,7 @@ POST /auth/login
 ```javascript
 //body
 {
-    "user": string,
+    "username": string,
     "password": string
 }
 //response EXPIRES IN 30 MINUTES
@@ -62,6 +68,7 @@ POST /auth/login
     "token": string,
 }
 ```
+#### Request JWT Token
 
 
 #### Resources
@@ -72,6 +79,15 @@ POST /auth/login
 | **transactionsRequest** | `prod` | Collection of transaction records   | `{_id, username, type, amount, status, timestamp}`            |
 | **transactions** | `prod` | Collection of transaction records   | `{_id, username, type, amount, created}`            |
 
+#### Summary
+#### Users
+| Route         | Endpoint             | UniqueID               | Query      | Header        | Request Body       | Response Description             |
+| :------------ | :------------------- | :--------------------- | :------------------ | :------------ | :----------------- | :-------------------------------- |
+| POST one      | /users        | -                     | - | **Required**. Authorization| **Required**. JSON | Status of the POST operation      |
+| GET many      | /users      | -                     | - | **Required**. Authorization| -                 | Array of transaction documents   |
+| GET one       | /users/{id}   | **Required**. `id`     | - | **Required**. Authorization| -                 | Single transaction document       |
+| PATCH one     | /users/{id}   | **Required**. `id`     | - | **Required**. Authorization| **Required**. JSON | Status of the PATCH operation     |
+| Delete one    | /users/{id}   | **Required**. `id`     | - | **Required**. Authorization| -                 | Status of the DELETE operation    |
 
 ## 4. Server-side Build and Deployment
 ### 4.1 Setting up virtual machine AWS EC2 and Docker
