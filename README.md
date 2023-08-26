@@ -8,10 +8,8 @@ Building MERN stack m-banking APP using AWS resources.
 1. [Documentation Contents](#1-documentation-contents)
 3. [API Documentation](#3-api-documentation)
 4. [Server-side Build and Deployment](#4-server-side-build-and-deployment)
-    1. Setting up virtual machine AWS EC2 and Docker
-    2. [Build connection to mongodb with Docker](#)
-    3. Build connection to MySQL AWS RDS server with Docker
-    4. Setting up REDIS AWS Elasticache
+    1. [Setting up virtual machine AWS EC2 and Docker](#41-setting-up-virtual-machine-aws-ec2-and-docker)
+    2. [Build connection to mongodb with Docker](#42-build-connection-to-mongodb-with-docker)
 
 
 
