@@ -68,7 +68,20 @@ POST /auth/login
     "token": string,
 }
 ```
-#### Request JWT Token
+#### Sign up for username
+```http
+POST /users
+```
+```javascript
+//body
+{
+    "name": string,
+    "email": string,
+    "username": string,
+    "password": string, /* alphanumeric, <8 */
+    "role": string, /* maker, approver, admin */
+}
+```
 
 
 #### Resources
