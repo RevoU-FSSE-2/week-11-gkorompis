@@ -13,6 +13,7 @@ Eleven streamlines user access with a simple sign-in process and enables hassle-
 4. [Server-side Build and Deployment](#4-server-side-build-and-deployment)
     1. [Setting up virtual machine AWS EC2 and Docker](#41-setting-up-virtual-machine-aws-ec2-and-docker)
     2. [Build connection to mongodb with Docker](#42-build-connection-to-mongodb-with-docker)
+    3. [Deploying build into AWS Lambda and AWS API Gateway](#43-deploying-build-into-aws-lambda-and-aws-api-gateway)
 
 
 
@@ -110,9 +111,39 @@ docker stop <container_id>
 ```
 
 
-
-
-
-
 sudo usermod -aG docker $USER
 sudo service docker restart
+
+
+### 4.3 Deploying build into AWS Lambda and AWS API Gateway
+
+1. After login to you AWS console, direct to AWS lambda resource.
+<img width="1397" alt="5 2 1" src="https://github.com/RevoU-FSSE-2/week-8-gkorompis/assets/52250424/8ccfb003-6f99-48bc-bb46-5493a9b79c91">
+
+2. Click "Create function", name your function and then "Create function" again.
+<img width="1397" alt="5 2 2" src="https://github.com/RevoU-FSSE-2/week-8-gkorompis/assets/52250424/f348631d-2439-439d-85ee-78208557a665">
+
+3. Direct to your newly created function, select option "Upload From", and then select ".zip file".
+<img width="1354" alt="5 2 3" src="https://github.com/RevoU-FSSE-2/week-8-gkorompis/assets/52250424/d8606751-b48b-42c0-b417-30cf6c7469f5">
+
+4. Upload the zip file from previous step into aws lambda placeholder.
+5. After that, direct to AWS API Gateway resource from menubar or concole.
+6. Click "Create API", choose api type "REST API" (not private), and the click "Build".
+7. After naming your API, click "create api", and then create resource.
+<img width="1415" alt="5 2 7 1" src="https://github.com/RevoU-FSSE-2/week-8-gkorompis/assets/52250424/4e0109c7-39b2-4a6e-af29-26c078d9e179">
+
+<img width="1399" alt="5 2 7" src="https://github.com/RevoU-FSSE-2/week-8-gkorompis/assets/52250424/ef62dfbc-1483-4ccc-b369-e9c16cf6f4c0">
+
+8. Tick configure as proxy resource, as well as enable API Gateway CORS, and then click "Create resource".
+<img width="1400" alt="5 2 8" src="https://github.com/RevoU-FSSE-2/week-8-gkorompis/assets/52250424/c8e6a2be-ae0f-472e-bdba-00ad63dae675">
+
+9. Connect API Gateway with your lambda function by typing your function name, and then click "Save".
+<img width="1399" alt="5 2 9" src="https://github.com/RevoU-FSSE-2/week-8-gkorompis/assets/52250424/0007f388-aec8-438c-ba49-a0c118a5181e">
+
+10. You can test your api, if all good, then click "Actions", and then "Deploy Api"
+<img width="1404" alt="5 2 10" src="https://github.com/RevoU-FSSE-2/week-8-gkorompis/assets/52250424/97df6514-b7ea-4fa5-b05b-5c71bf5494db">
+
+11. After naming your API deployment stage, and then click "Deploy"
+<img width="1395" alt="5 2 11" src="https://github.com/RevoU-FSSE-2/week-8-gkorompis/assets/52250424/7cd54f2b-9eab-4592-a726-7adcc4ab31be">
+
+12. Your Base URL is ready, usually will be appeared on the top of the page.
