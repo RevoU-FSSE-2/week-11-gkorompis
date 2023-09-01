@@ -69,7 +69,7 @@ The server-side application is hosted by AWS API Gateway, and follows this requi
 https://gedldowmye.execute-api.ap-southeast-3.amazonaws.com/prod/
 ```
 
-#### OpenAPI Documentation
+### 3.3 OpenAPI Documentation
 
 Full documentation can be found [here.](https://gedldowmye.execute-api.ap-southeast-3.amazonaws.com/prod/api-docs/)
 
