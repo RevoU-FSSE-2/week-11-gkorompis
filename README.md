@@ -17,7 +17,7 @@ Eleven streamlines user access with a simple sign-in process and enables hassle-
 
 
 
-## 3. API Documentation
+## 3. OpenAPI Documentation
 ### 3.1 Dependencies
 The server-side application is hosted by AWS API Gateway, and follows this requirement:
 ```javascript
