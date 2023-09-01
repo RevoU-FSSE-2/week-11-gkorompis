@@ -21,21 +21,34 @@ Eleven streamlines user access with a simple sign-in process and enables hassle-
 ### 3.1 Dependencies
 The server-side application is hosted by AWS API Gateway, and follows this requirement:
 ```javascript
- "dependencies": {
+"dependencies": {
+    "@aws-sdk/client-s3": "^3.400.0",
+    "@aws-sdk/s3-request-presigner": "^3.400.0",
     "@types/body-parser": "^1.19.2",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
+    "@types/swagger-jsdoc": "^6.0.1",
+    "@types/swagger-ui-express": "^4.1.3",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "ioredis": "^5.3.2",
     "jsonwebtoken": "^9.0.1",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.0",
     "serverless-http": "^3.2.0",
-    "typescript": "^5.1.6"
-}
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/mongodb": "^4.0.7",
+    "@types/multer": "^1.4.7",
+    "typescript": "^5.2.2"
+  }
 ```
 
 ### 3.2 BaseURL and Resources
