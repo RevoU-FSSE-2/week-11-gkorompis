@@ -53,7 +53,7 @@ The server-side application is hosted by AWS API Gateway, and follows this requi
 
 #### Base URL
 ```http
-https://kmaww9zbl5.execute-api.ap-southeast-3.amazonaws.com/prod
+https://gedldowmye.execute-api.ap-southeast-3.amazonaws.com/prod/
 ```
 
 #### OpenAPI Documentation
@@ -113,7 +113,6 @@ docker stop <container_id>
 
 sudo usermod -aG docker $USER
 sudo service docker restart
-
 
 ### 4.3 Deploying build into AWS Lambda and AWS API Gateway
 
