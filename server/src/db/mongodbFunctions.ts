@@ -43,13 +43,14 @@ export const mdbInsertOne = async (db_instance:DbInstance, collection_name:Colle
         const collection = db.collection(collection_name);
         
         // insert into collection
-        console.log('>>> inserting into...')
+        console.log('>>> inserting document:', document)
         const postResponse = await collection.insertOne(document);
 
         console.log(">>> insert success to:", collection_name, "|||", postResponse);
         return postResponse;
     } catch (error){
-        console.log({error:500, message: "internal server error at database insert"});
+        console.log({code:500, message: "internal server error at database insert", error});
+        return {code:500, message: "internal server error at database insert", error};
     }
 }
 
@@ -71,14 +72,15 @@ export const mdbFetch = async (db_instance:DbInstance, collection_name:Collectio
             query._id = new ObjectId(_id);
         }
         console.log('>>>query id aware', query);
-        const getResponse = collection.find(query);
+        const getResponse =  collection.find(query);
         const documents = await getResponse.toArray();
         
 
         console.log(">>> fetch success from:", collection_name, "|||", getResponse);
         return documents;
     } catch (error){
-        console.log({error:500, message: "internal server error at database fetch"});
+        console.log({code:500, message: "internal server error at database fetch", error});
+        return error
     }
 }
 
@@ -100,13 +102,26 @@ export const mdbUpdateOne = async (db_instance:DbInstance, collection_name:Colle
         if(_id){
             query._id = new ObjectId(_id);
         }
-        const updateResponse = collection.updateOne(query, {$set: document});
-
+        console.log(">>>update query:", query);
+        console.log(">>>update document:", document);
+         console.log(">>>instanceof Buffer:", document instanceof Buffer);
+        const {status, timestamp} = document;
+        if(document instanceof Buffer){
+            const updateResponse = await collection.updateOne(query, {$set: {
+                status: status,
+                timestamp: timestamp
+            }});
+            console.log(">>>  update success into:", collection_name, "|||", updateResponse);
+            return updateResponse;
+        } 
+        const updateResponse = await collection.updateOne(query, {$set: document});
+        
         console.log(">>>  update success into:", collection_name, "|||", updateResponse);
         return updateResponse;
 
     } catch (error){
-        console.log({error:500, message: "internal server error at database update"});
+        console.log({error, message: "internal server error at database update"});
+        return {code:500, message: "internal server error at database update", error};
     }
 }
 
@@ -126,7 +141,7 @@ export const mdbDeleteOne = async (db_instance:DbInstance, collection_name:Colle
         const {_id} = query;
         if(_id){query._id = new ObjectId(_id);}
         console.log('>>> deleting document into collection name')
-        const deleteResponse = collection.deleteOne(query);
+        const deleteResponse = await collection.deleteOne(query);
 
         console.log(">>>  delete success from:", collection_name, "|||", deleteResponse);
         return deleteResponse;

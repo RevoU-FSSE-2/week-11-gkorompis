@@ -1,11 +1,13 @@
-# [MERN stack m-banking APP]()
+# [ELEVEN]()
 
-Building MERN stack m-banking APP using AWS resources.
+Building Mongodb, ExpressJS, Typscript, NodeJS stack for Reporting Portal Service using AWS resources.
 
 ## 1. Project Overview
 
+Eleven streamlines user access with a simple sign-in process and enables hassle-free service requests. It also offers convenient file report retrieval, making it a versatile platform for efficient service management and data access.
+
 ## 2. Contents
-1. [Documentation Contents](#1-documentation-contents)
+1. [Project Overview](#1-project-overview)
 2. [Contents](#2-contents)
 3. [API Documentation](#3-api-documentation)
 4. [Server-side Build and Deployment](#4-server-side-build-and-deployment)
@@ -53,54 +55,9 @@ The server-side application is hosted by AWS API Gateway, and follows this requi
 https://kmaww9zbl5.execute-api.ap-southeast-3.amazonaws.com/prod
 ```
 
-#### Request JWT Token
-```http
-POST /auth/login
-```
-```javascript
-//body
-{
-    "username": string,
-    "password": string
-}
-//response EXPIRES IN 30 MINUTES
-{
-    "token": string,
-}
-```
-#### Sign up for username
-```http
-POST /users
-```
-```javascript
-//body
-{
-    "name": string,
-    "email": string,
-    "username": string,
-    "password": string, /* alphanumeric, <8 */
-    "role": string, /* maker, approver, admin */
-}
-```
+#### OpenAPI Documentation
 
-
-#### Resources
-
-| Resource       | Status | Description                          | Fields        |
-| :------------- | :----- | :----------------------------------- | :------------ |
-| **users**        | `prod`  | Collection of user accounts        | `{_id, created, name, email, username, password }`          |
-| **transactionsRequest** | `prod` | Collection of transaction records   | `{_id, username, type, amount, status, timestamp}`            |
-| **transactions** | `prod` | Collection of transaction records   | `{_id, username, type, amount, created}`            |
-
-#### Summary
-#### Users
-| Route         | Endpoint             | UniqueID               | Query      | Header        | Request Body       | Response Description             |
-| :------------ | :------------------- | :--------------------- | :------------------ | :------------ | :----------------- | :-------------------------------- |
-| POST one      | /users        | -                     | - | **Required**. Authorization| **Required**. JSON | Status of the POST operation      |
-| GET many      | /users      | -                     | - | **Required**. Authorization| -                 | Array of transaction documents   |
-| GET one       | /users/{id}   | **Required**. `id`     | - | **Required**. Authorization| -                 | Single transaction document       |
-| PATCH one     | /users/{id}   | **Required**. `id`     | - | **Required**. Authorization| **Required**. JSON | Status of the PATCH operation     |
-| Delete one    | /users/{id}   | **Required**. `id`     | - | **Required**. Authorization| -                 | Status of the DELETE operation    |
+Full documentation can be found [here.](https://gedldowmye.execute-api.ap-southeast-3.amazonaws.com/prod/api-docs/)
 
 ## 4. Server-side Build and Deployment
 ### 4.1 Setting up virtual machine AWS EC2 and Docker

@@ -34,7 +34,7 @@ export const updateRequestApproved = (req, res, next) => __awaiter(void 0, void 
     req.body.status["isApproved"] = true;
     req.body.status["isRejected"] = false;
     req.body.status["isDeleted"] = false;
-    req.body = setRequestTimestamp("resolved", req.body);
+    // req.body = setRequestTimestamp("resolved", req.body)
     req.body = setRequestTimestamp("updated", req.body);
     next();
 });
@@ -58,7 +58,7 @@ export const updateRequestRejected = (req, res, next) => __awaiter(void 0, void 
     req.body.status["isApproved"] = false;
     req.body.status["isRejected"] = true;
     req.body.status["isDeleted"] = false;
-    req.body = setRequestTimestamp("resolved", req.body);
+    // req.body = setRequestTimestamp("resolved", req.body)
     req.body = setRequestTimestamp("updated", req.body);
     next();
 });

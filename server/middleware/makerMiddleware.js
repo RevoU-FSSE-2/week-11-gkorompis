@@ -8,6 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const permissions = ["admin", "approver", "maker"];
+// const setRequestTimestampUpdate =(body: TransactionDocumentQuery)=>{
+//    if(body.timestamp){
+//     body.timestamp["updated"] = new Date();
+//    }
+//    return body;
+// };
 const setRequestStatusDefault = (body) => {
     if (body.status) {
         body.status["isApproved"] = false;
@@ -17,10 +23,8 @@ const setRequestStatusDefault = (body) => {
     return body;
 };
 const setRequestTimestampDefault = (body) => {
-    if (body.timestamp) {
-        body.timestamp["created"] = new Date();
-        body.timestamp["resolved"] = undefined;
-        body.timestamp["deleted"] = undefined;
+    if (body) {
+        body["created"] = new Date();
     }
     return body;
 };

@@ -37,13 +37,14 @@ export const mdbInsertOne = (db_instance, collection_name, document) => __awaite
         console.log('>>> fetching collection name...');
         const collection = db.collection(collection_name);
         // insert into collection
-        console.log('>>> inserting into...');
+        console.log('>>> inserting document:', document);
         const postResponse = yield collection.insertOne(document);
         console.log(">>> insert success to:", collection_name, "|||", postResponse);
         return postResponse;
     }
     catch (error) {
-        console.log({ error: 500, message: "internal server error at database insert" });
+        console.log({ code: 500, message: "internal server error at database insert", error });
+        return { code: 500, message: "internal server error at database insert", error };
     }
 });
 /****** FETCH MANY/ONE *******/
@@ -68,7 +69,8 @@ export const mdbFetch = (db_instance, collection_name, query) => __awaiter(void 
         return documents;
     }
     catch (error) {
-        console.log({ error: 500, message: "internal server error at database fetch" });
+        console.log({ code: 500, message: "internal server error at database fetch", error });
+        return error;
     }
 });
 /****** UPDATE ONE *******/
@@ -86,12 +88,25 @@ export const mdbUpdateOne = (db_instance, collection_name, document, query) => _
         if (_id) {
             query._id = new ObjectId(_id);
         }
-        const updateResponse = collection.updateOne(query, { $set: document });
+        console.log(">>>update query:", query);
+        console.log(">>>update document:", document);
+        console.log(">>>instanceof Buffer:", document instanceof Buffer);
+        const { status, timestamp } = document;
+        if (document instanceof Buffer) {
+            const updateResponse = yield collection.updateOne(query, { $set: {
+                    status: status,
+                    timestamp: timestamp
+                } });
+            console.log(">>>  update success into:", collection_name, "|||", updateResponse);
+            return updateResponse;
+        }
+        const updateResponse = yield collection.updateOne(query, { $set: document });
         console.log(">>>  update success into:", collection_name, "|||", updateResponse);
         return updateResponse;
     }
     catch (error) {
-        console.log({ error: 500, message: "internal server error at database update" });
+        console.log({ error, message: "internal server error at database update" });
+        return { code: 500, message: "internal server error at database update", error };
     }
 });
 /****** DELETE ONE *******/
@@ -109,7 +124,7 @@ export const mdbDeleteOne = (db_instance, collection_name, query) => __awaiter(v
             query._id = new ObjectId(_id);
         }
         console.log('>>> deleting document into collection name');
-        const deleteResponse = collection.deleteOne(query);
+        const deleteResponse = yield collection.deleteOne(query);
         console.log(">>>  delete success from:", collection_name, "|||", deleteResponse);
         return deleteResponse;
     }

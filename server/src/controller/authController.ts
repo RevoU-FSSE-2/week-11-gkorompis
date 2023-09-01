@@ -1,14 +1,10 @@
-import { Request, Response } from "express";
-import bcrypt from 'bcryptjs';
-import MdbCrud from "../db/mdbCrud.js";
-const crud = new MdbCrud();
-const {mdbFetch} = crud;
-import jwt from 'jsonwebtoken';
+import { Request, Response } from "express"; 
+import jwt from 'jsonwebtoken'; 
+import '../loadenv.js';
 
-import '../loadenv.js'
 const SECRET_KEY = process.env.SECRET_KEY;
 
-/****** INTRINSIC OBJECTS*******/
+/**************************************** INTRINSIC OBJECTS */
 type UserDocumentQuery = {
     name?: string,
     email?: string,
@@ -19,47 +15,26 @@ type UserDocumentQuery = {
 }
 // type MdbQuery = {id: string} & UserDocumentQuery
 
-/****** EXPORTS *******/
-
+/**************************************** EXPORTS */
 /****** POST ONE *******/
 export const authPostController = async (req:Request, res:Response) =>{
     // extract request parameter, query, body, header
-    // const params = req.params;
-    // const query:UserDocumentQuery = req.query;
-    const body = req.body;
-    if(body){
-        // expect return username and password from request
-        const {username, password} = body;
-        const mdbQuery = {username};
-
-        // expect user document
-        const getResponse = await mdbFetch("howmuch-app", "users", mdbQuery);
-        const userDb = getResponse && getResponse[0];
-
-        // expect user is not null
-        if(!userDb) {
-            console.log({error:403, message: "unauthorized access, username not matched"});
-            return res.status(403).json({error:403, message: "unauthorized access"});
+    const params = req.params;
+    const query:UserDocumentQuery = req.query;
+    const body:UserDocumentQuery = req.body;
+    try {
+        // expect request body is not null
+        if(!body){
+            //expect return error: body is undefined
+            console.log({code:400, message: "bad request at authPostController"});
         }
-        console.log(">>> userDB", userDb)
-
-        // expect user password matches login password
-        // Compare the entered password with the stored hash
-
-        const pass_hashed = userDb?.password;
-        const pass_login = password;
-        console.log({pass_login, pass_hashed})
-        const passwordMatches = await bcrypt.compare(pass_login, pass_hashed);
-        if(!passwordMatches){
-            console.log({error:403, message: "unauthorized access, password not matched", match: passwordMatches});
-            res.status(403).json({error:403, message: "unauthorized access", match: passwordMatches});
-        }
-
-        // expect returns login token
-        console.log(">>> bcrypt result", passwordMatches)
-        const token = jwt.sign(userDb as UserDocumentQuery, SECRET_KEY as string,{expiresIn: '30m'});
-        return res.status(200).json(token);
-    } else {
-        console.log({error:401, message: "invalid request body"});
+            //expect jwt sign return token messages
+            const loginInfo = body;
+            const token = jwt.sign(loginInfo as UserDocumentQuery, SECRET_KEY as string, {expiresIn: '30m'});
+            return res.status(200).json(token);         
+    } catch (error){
+       //expect return error: internal server
+        console.log('>>>authPostController: ERR', {code:500, message: "internal server error at authPostController", error})
+        return res.status(500).json({code:500, message: "internal server error at mongodb fetch for authPostController", error});       
     }
-}
+};
