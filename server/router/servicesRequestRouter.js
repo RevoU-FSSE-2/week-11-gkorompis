@@ -11,7 +11,7 @@ const servicesRequestRouter = express.Router();
 //POST servicesRequest
 /**
  * @openapi
- * /prod/servicesRequest:
+ * /servicesRequest:
  *   post:
  *     summary: Create New Service Request
  *     tags:
@@ -72,7 +72,7 @@ const servicesRequestRouter = express.Router();
 //GET all servicesRequest
 /**
  * @openapi
- * /prod/servicesRequest:
+ * /servicesRequest:
  *   get:
  *     summary: Retrieve All Service Requests
  *     tags:
@@ -160,15 +160,20 @@ const servicesRequestRouter = express.Router();
 //GET one servicesRequest
 /**
  * @openapi
- * /prod/servicesRequest/{id}:
+ * /servicesRequest/{id}:
  *   get:
  *     summary: Get One Service Request
  *     tags:
- *       - Services
+ *       - Service Request
  *     description: |
  *       Retrieve a specific service request by its unique identifier.
- *       Requires authorization with a valid bearer token (JWT).
- *     parameters:
+ *       Requires authorization with a valid bearer token (JWT). *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Insert your JWT token here.
+ *         required: true
+ *         schema:
+ *           type: string
  *       - in: path
  *         name: id
  *         required: true
@@ -226,7 +231,7 @@ const servicesRequestRouter = express.Router();
 //PATCH servicesRequest
 /**
  * @openapi
- * /prod/servicesRequest/approve/{id}:
+ * /servicesRequest/approve/{id}:
  *   patch:
  *     summary: Approve Service Request
  *     tags:
@@ -235,6 +240,12 @@ const servicesRequestRouter = express.Router();
  *       Approve a service request by changing its status.
  *       Requires authorization with a valid bearer token (JWT).
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Insert your JWT token here.
+ *         required: true
+ *         schema:
+ *           type: string
  *       - in: path
  *         name: id
  *         required: true
@@ -282,7 +293,7 @@ const servicesRequestRouter = express.Router();
 //PATCH servicesRequest
 /**
  * @openapi
- * /prod/servicesRequest/reject/{id}:
+ * /servicesRequest/reject/{id}:
  *   patch:
  *     summary: Reject Service Request
  *     tags:
@@ -291,6 +302,18 @@ const servicesRequestRouter = express.Router();
  *       Reject a service request by changing its status.
  *       Requires authorization with a valid bearer token (JWT).
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Insert your JWT token here.
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: header
+ *         name: Authorization
+ *         description: Insert your JWT token here.
+ *         required: true
+ *         schema:
+ *         type: string
  *       - in: path
  *         name: id
  *         required: true
@@ -338,7 +361,7 @@ const servicesRequestRouter = express.Router();
 //PATCH servicesRequest
 /**
  * @openapi
- * /prod/servicesRequest/delete/{id}:
+ * /servicesRequest/delete/{id}:
  *   patch:
  *     summary: Soft Delete Service Request
  *     tags:
@@ -347,6 +370,18 @@ const servicesRequestRouter = express.Router();
  *       Soft delete a service request by changing its status.
  *       Requires authorization with a valid bearer token (JWT).
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Insert your JWT token here.
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: header
+ *         name: Authorization
+ *         description: Insert your JWT token here.
+ *         required: true
+ *         schema:
+ *         type: string
  *       - in: path
  *         name: id
  *         required: true
@@ -394,7 +429,7 @@ const servicesRequestRouter = express.Router();
 //Delete servicesRequest
 /**
  * @openapi
- * /prod/servicesRequest/{id}:
+ * /servicesRequest/{id}:
  *   delete:
  *     summary: Delete Permanently Service Request
  *     tags:
@@ -403,6 +438,12 @@ const servicesRequestRouter = express.Router();
  *       Permanently delete a service request.
  *       Requires authorization with a valid bearer token (JWT).
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Insert your JWT token here.
+ *         required: true
+ *         schema:
+ *         type: string
  *       - in: path
  *         name: id
  *         required: true

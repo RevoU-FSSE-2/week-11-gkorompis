@@ -10,7 +10,7 @@ const authRouter = express.Router();
 /**
  * @openapi
  * paths:
- *   /prod/auth/login:
+ *   /auth/login:
  *     post:
  *       summary: Sign In - User Authentication
  *       tags:

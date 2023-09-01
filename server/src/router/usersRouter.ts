@@ -14,7 +14,7 @@ const usersRouter = express.Router();
 /**
  * @openapi
  * paths:
- *   /prod/users:
+ *   /users:
  *     post:
  *       summary: Register a New User
  *       tags: 

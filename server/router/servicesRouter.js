@@ -10,65 +10,71 @@ const servicesRouter = express.Router();
 //openapi
 /**
  * @openapi
- * paths:
- *   /prod/services:
- *     post:
- *       tags:
- *         - Services
- *       summary: Register a New Service
- *       description: |
- *         This endpoint allows 'admin' users to register a new service.
- *         Provide details including the service name, service code, and permissions (an array of strings).
- *         Authentication with a valid bearer token is required to access this endpoint.
- *       requestBody:
+ * /services:
+ *   post:
+ *     tags:
+ *       - Services
+ *     summary: Register a New Service
+ *     description: |
+ *       This endpoint allows 'admin' users to register a new service.
+ *       Provide details including the service name, service code, and permissions (an array of strings).
+ *       Authentication with a valid bearer token is required to access this endpoint.
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Insert your JWT token here.
  *         required: true
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 serviceName:
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               serviceName:
+ *                 type: string
+ *               serviceCode:
+ *                 type: string
+ *               permission:
+ *                 type: array
+ *                 items:
  *                   type: string
- *                 serviceCode:
- *                   type: string
- *                 permission:
- *                   type: array
- *                   items:
- *                     type: string
  *             example:
  *               serviceName: "Nutrigenomic"
  *               serviceCode: "LAB03"
  *               permission:
  *                 - "admin"
- *       responses:
- *         '200':
- *           description: Successful registration of a new service
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   acknowledged:
- *                     type: boolean
- *                   insertedId:
- *                     type: string
- *               example:
- *                 acknowledged: true
- *                 insertedId: "64f241a694701a7f79ce8864"
- *         '400':
- *           description: Bad Request - Invalid service registration request
- *         '403':
- *           description: Forbidden - Unauthorized access to register a new service
- *         '409':
- *           description: Conflict - Service registration conflict, service already exists
- *         '500':
- *           description: Internal Server Error - An unexpected error occurred during registration
- *       security:
- *         - bearerAuth: []  # Requires a valid bearer token with 'admin' role to create new services
+ *     responses:
+ *       '200':
+ *         description: Successful registration of a new service
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 acknowledged:
+ *                   type: boolean
+ *                 insertedId:
+ *                   type: string
+ *             example:
+ *               acknowledged: true
+ *               insertedId: "64f241a694701a7f79ce8864"
+ *       '400':
+ *         description: Bad Request - Invalid service registration request
+ *       '403':
+ *         description: Forbidden - Unauthorized access to register a new service
+ *       '409':
+ *         description: Conflict - Service registration conflict, service already exists
+ *       '500':
+ *         description: Internal Server Error - An unexpected error occurred during registration
+ *     security:
+ *       - bearerAuth: []  # Requires a valid bearer token with 'admin' role to create new services
  */
 /**
  * @openapi
- * /prod/services:
+ * /services:
  *   get:
  *     summary: Retrieve All Services
  *     tags:
@@ -78,6 +84,12 @@ const servicesRouter = express.Router();
  *       Requires authorization with a valid bearer token (JWT).
  *       Query parameters can be used to filter results based on string fields.
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Insert your JWT token here.
+ *         required: true
+ *         schema:
+ *         type: string
  *       - in: query
  *         name: serviceName
  *         schema:
