@@ -9,7 +9,7 @@ Eleven streamlines user access with a simple sign-in process and enables hassle-
 ## 2. Contents
 1. [Project Overview](#1-project-overview)
 2. [Contents](#2-contents)
-3. [API Documentation](#3-api-documentation)
+3. [OpenAPI Documentation](#3-api-documentation)
 4. [Server-side Build and Deployment](#4-server-side-build-and-deployment)
     1. [Setting up virtual machine AWS EC2 and Docker](#41-setting-up-virtual-machine-aws-ec2-and-docker)
     2. [Build connection to mongodb with Docker](#42-build-connection-to-mongodb-with-docker)
